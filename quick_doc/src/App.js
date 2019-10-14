@@ -32,12 +32,12 @@ const db = firebase.database().ref();
 
 
 
-
 const QaWrapper = ({questions}) => {
   const useStyles = makeStyles(theme => ({
     container: {
       display: 'flex',
       flexWrap: 'wrap',
+      flexDirection: 'column'
     },
     textField: {
       marginLeft: theme.spacing(1),
@@ -76,6 +76,7 @@ const QaWrapper = ({questions}) => {
         className={classes.textField}
         // value={}
         //value = " "
+        placeholder = ""
         defaultValue=""
         onChange={handleChange(question.id)}
         margin="normal"
@@ -125,6 +126,12 @@ const Questions =[
       'inflammation',
     ],
     page: 2
+  },
+  {
+    id: 4,
+    question: 'Which city do you live in?',
+    answer:[],
+    page: 3
   }
 ]
 
@@ -153,15 +160,21 @@ const Pagination = () =>{
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  const maxSteps = Questions.length;
+  const maxSteps = Questions[Questions.length-1].page + 1;
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
+    TextField.value = "";
   };
 
   const handleBack = () => {
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
+
+  const handleSubmit = (text) =>{
+    if (activeStep !== maxSteps - 2) return text;
+    else return "Submit";
+  }
 
   const questions = Questions.filter(question=>question.page === activeStep + 1)
 
@@ -184,9 +197,10 @@ const Pagination = () =>{
         variant="text"
         activeStep={activeStep}
         nextButton={
+          activeStep === maxSteps-1 ? <div /> :
           <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-            Next
-            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+            {handleSubmit('next')}
+            {activeStep===maxSteps-2 ? <div /> : <KeyboardArrowRight />}
           </Button>
         }
         backButton={
