@@ -1,8 +1,16 @@
 import React, { useState, useEffect} from 'react';
 import "rbx/index.css";
-import {Button,Container,Message, Title } from "rbx";
+import {Container,Title } from "rbx";
 import firebase from 'firebase/app';
 import 'firebase/database';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import MobileStepper from '@material-ui/core/MobileStepper';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import TextField from '@material-ui/core/TextField';
 
 
 const firebaseConfig = {
@@ -22,17 +30,6 @@ const db = firebase.database().ref();
 // const docLocKey = 'e98def16c263c71592c3c2f74e24097a';
 // const docLocUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + docLocKey;
 
-
-import {Container,Message, Title } from "rbx";
-
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import TextField from '@material-ui/core/TextField';
 
 
 
