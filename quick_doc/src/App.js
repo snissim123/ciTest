@@ -34,10 +34,10 @@ const QaWrapper = ({questions}) => {
 
   const classes = useStyles();
   const [values, setValues] = React.useState({
-    name: 'Cat in the Hat',
-    age: '',
-    multiline: 'Controlled',
-    currency: 'EUR',
+    1: 'Cat in the Hat',
+    2: '',
+    3: 'Controlled',
+    4: 'EUR',
   });
 
   const handleChange = name => event => {
@@ -55,7 +55,9 @@ const QaWrapper = ({questions}) => {
         label={question.question}
         className={classes.textField}
         // value={}
-        onChange={handleChange('name')}
+        //value = " "
+        defaultValue=""
+        onChange={handleChange(question.id)}
         margin="normal"
         />  
     ))
@@ -67,6 +69,7 @@ const QaWrapper = ({questions}) => {
 
 const Questions =[
   {
+    id: 1,
     question: 'What is your age?',
     answer :[
       '<10',
@@ -80,6 +83,7 @@ const Questions =[
     page: 1
   },
   {
+    id: 2,
     question: 'Where do you feel uncomfortable on your body?',
     answer :[
       'head',
@@ -92,14 +96,15 @@ const Questions =[
     page: 2
   },
   {
-    question: 'What is your symptoms?',
+    id: 3,
+    question: 'What are your symptoms?',
     answer :[
       'fever',
       'sore throat',
       'sneezing',
       'inflammation',
     ],
-    page: 3
+    page: 2
   }
 ]
 
@@ -176,12 +181,14 @@ const Pagination = () =>{
   )
 }
 
-
-
 const App =() => {
+
+  const style ={
+    marginTop: 40
+  }
   return (
     <Container>
-      <Title align="center">
+      <Title align="center" style = {style}>
         QuickDoc
       </Title>
       <Pagination/>
