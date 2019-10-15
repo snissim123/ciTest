@@ -3,6 +3,8 @@ import "rbx/index.css";
 import {Container,Title } from "rbx";
 import firebase from 'firebase/app';
 import 'firebase/database';
+
+
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
@@ -11,7 +13,10 @@ import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
-
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem'
+import {FormControl} from '@material-ui/core';
+import {InputLabel} from '@material-ui/core'
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPlCnToFlfovuDUaAGesBUNLZw8DAxTnQ",
@@ -32,7 +37,6 @@ const db = firebase.database().ref();
 
 
 
-
 const Questions =[
   {
     id: 1,
@@ -40,7 +44,7 @@ const Questions =[
     answer :[
       '<10',
       '10-18',
-      '18>30',
+      '18-30',
       '30-40',
       '40-60',
       '60-80',
@@ -82,6 +86,29 @@ const Questions =[
   }
 ]
 
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+}));
+
 const QaWrapper = ({questions}) => {
   const useStyles = makeStyles(theme => ({
     container: {
@@ -103,7 +130,7 @@ const QaWrapper = ({questions}) => {
     },
   }));
 
-  const classes = useStyles();
+
   const [values, setValues] = React.useState({
   });
 
@@ -111,28 +138,42 @@ const QaWrapper = ({questions}) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
-  
+  const classes = useStyles();
+  const [age, setAge] = React.useState('');
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
 
   return(
     <form className={classes.container} noValidate autoComplete="off">
-    {
-      questions.map(question=>(
-        <TextField
-        // id="standard-name"
-        label={question.question}
-        className={classes.textField}
-        // value={}
-        placeholder = ""
-        defaultValue = ""
-        onChange={handleChange(question.answer[0])}
-        margin="normal"
-        />  
-    ))
-    }
+
+      {
+    //  <InputLabel htmlFor="select-multiple">question</InputLabel>
+      questions.map(question =>
+          <Select
+            multiple
+            value={[]}
+            onChange={handleChange}
+          >
+          <MenuItem value="Select an Option">
+          <em>Select Options</em>
+          </MenuItem>
+          <MenuItem value={question.answer[0]}>{question.answer[0]}</MenuItem>
+          <MenuItem value={question.answer[1]}>{question.answer[1]}</MenuItem>
+          <MenuItem value={question.answer[2]}>{question.answer[2]}</MenuItem>
+      </Select>
+      )
+      }
     </form>
   )
 }
-
 
 
 
