@@ -128,6 +128,9 @@ const QaWrapper = ({questions}) => {
     menu: {
       width: 200,
     },
+    select:{
+      width: 400,
+    }
   }));
 
 
@@ -158,6 +161,7 @@ const QaWrapper = ({questions}) => {
     //  <InputLabel htmlFor="select-multiple">question</InputLabel>
       questions.map(question =>
           <Select
+            className={classes.select}
             multiple
             value={[]}
             onChange={handleChange}
