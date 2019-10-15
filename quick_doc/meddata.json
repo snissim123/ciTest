@@ -1,0 +1,5 @@
+{
+    "arm": [ "bumps on arm", "rash on arm","itchyness on arm"],
+    "head": ["headache","acne","migrane","skin discoloration","burn on face","eye pain"],
+    "whole body": ["fever","chills"]
+}
