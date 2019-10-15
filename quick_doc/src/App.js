@@ -32,61 +32,6 @@ const db = firebase.database().ref();
 
 
 
-const QaWrapper = ({questions}) => {
-  const useStyles = makeStyles(theme => ({
-    container: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      flexDirection: 'column'
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 400,
-    },
-    dense: {
-      marginTop: 19,
-    },
-    menu: {
-      width: 200,
-    },
-  }));
-
-  const classes = useStyles();
-  const [values, setValues] = React.useState({
-    1: 'Cat in the Hat',
-    2: '',
-    3: 'Controlled',
-    4: 'EUR',
-  });
-
-  const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
-  };
-
-  
-
-  return(
-    <form className={classes.container} noValidate autoComplete="off">
-    {
-      questions.map(question=>(
-        <TextField
-        // id="standard-name"
-        label={question.question}
-        className={classes.textField}
-        // value={}
-        //value = " "
-        placeholder = ""
-        defaultValue=""
-        onChange={handleChange(question.id)}
-        margin="normal"
-        />  
-    ))
-    }
-    </form>
-  )
-}
-
 
 const Questions =[
   {
@@ -130,10 +75,65 @@ const Questions =[
   {
     id: 4,
     question: 'Which city do you live in?',
-    answer:[],
+    answer:[
+      'Evanston'
+    ],
     page: 3
   }
 ]
+
+const QaWrapper = ({questions}) => {
+  const useStyles = makeStyles(theme => ({
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'column',
+      marginBottom: 50
+    },
+    textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 400,
+    },
+    dense: {
+      marginTop: 19,
+    },
+    menu: {
+      width: 200,
+    },
+  }));
+
+  const classes = useStyles();
+  const [values, setValues] = React.useState({
+  });
+
+  const handleChange = name => event => {
+    setValues({ ...values, [name]: event.target.value });
+  };
+
+  
+
+  return(
+    <form className={classes.container} noValidate autoComplete="off">
+    {
+      questions.map(question=>(
+        <TextField
+        // id="standard-name"
+        label={question.question}
+        className={classes.textField}
+        // value={}
+        placeholder = ""
+        defaultValue = ""
+        onChange={handleChange(question.answer[0])}
+        margin="normal"
+        />  
+    ))
+    }
+    </form>
+  )
+}
+
+
 
 
 const Pagination = () =>{
@@ -171,10 +171,14 @@ const Pagination = () =>{
     setActiveStep(prevActiveStep => prevActiveStep - 1);
   };
 
-  const handleSubmit = (text) =>{
+  const handleBackText = (text) =>{
     if (activeStep !== maxSteps - 2) return text;
     else return "Submit";
   }
+
+  // const handleSubmit = () => {
+  //     return null;
+  // }
 
   const questions = Questions.filter(question=>question.page === activeStep + 1)
 
@@ -199,7 +203,7 @@ const Pagination = () =>{
         nextButton={
           activeStep === maxSteps-1 ? <div /> :
           <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-            {handleSubmit('next')}
+            {handleBackText('next')}
             {activeStep===maxSteps-2 ? <div /> : <KeyboardArrowRight />}
           </Button>
         }
