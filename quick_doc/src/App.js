@@ -138,7 +138,7 @@ const QaWrapper = ({questions}) => {
       marginTop: 19,
     },
     menu: {
-      width: 200,
+      width: 400,
     },
     select:{
       width: 400,
