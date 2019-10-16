@@ -263,7 +263,6 @@ const Pagination = () =>{
         <input>
         </input>
       </div> */}
-      activeStep
       <QaWrapper questions = {questions}/>
       <MobileStepper
         steps={maxSteps}
