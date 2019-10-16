@@ -139,7 +139,10 @@ const QaWrapper = ({questions}) => {
     },
     select:{
       width: 400,
-    }
+      marginTop: 20,
+      marginLeft: 12
+    },
+
   }));
 
 
@@ -173,7 +176,8 @@ const QaWrapper = ({questions}) => {
       {
       questions.map(question =>
         <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel ref={InputLabel} htmlFor="outlined-age-simple">
+        <InputLabel ref={InputLabel} htmlFor="outlined-age-simple"
+        className={classes.questionLabel}>
           {question.question}
         </InputLabel>
           <Select
