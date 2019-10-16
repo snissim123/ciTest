@@ -63,6 +63,7 @@ const QaWrapper = ({questions}) => {
     container: {
       display: 'flex',
       flexWrap: 'wrap',
+      width: 400,
     },
     textField: {
       marginLeft: theme.spacing(1),
@@ -73,7 +74,7 @@ const QaWrapper = ({questions}) => {
       marginTop: 19,
     },
     menu: {
-      width: 200,
+      width: 400,
     },
   }));
 
@@ -111,10 +112,12 @@ const QaWrapper = ({questions}) => {
             multiple
             value={[]}
             onChange={handleChange}
+            
           >
           <MenuItem value="Select an Option">
           <em>Select Options</em>
           </MenuItem>
+          
           <MenuItem value={question.answer[0]}>{question.answer[0]}</MenuItem>
           <MenuItem value={question.answer[1]}>{question.answer[1]}</MenuItem>
           <MenuItem value={question.answer[2]}>{question.answer[2]}</MenuItem>
