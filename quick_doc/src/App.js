@@ -97,7 +97,10 @@ const Questions =[
     id: 5,
     question: 'Which city do you live in?',
     answer:[
-      'Evanston'
+      'Evanston',
+      'Chicago',
+      'New York',
+      'Los Angeles'
     ],
     page: 5
   } 
