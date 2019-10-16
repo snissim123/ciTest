@@ -266,9 +266,14 @@ const Pagination = () =>{
         <input>
         </input>
       </div> */}
+<<<<<<< HEAD
       {activeStep===maxSteps-1? <Result/>:
         <QaWrapper questions = {questions}/>}
       
+=======
+      activeStep
+      <QaWrapper questions = {questions}/>
+>>>>>>> parent of ae53034... bug fix
       <MobileStepper
         steps={maxSteps}
         position="static"
