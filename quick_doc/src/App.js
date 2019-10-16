@@ -75,6 +75,8 @@ const Questions =[
       'sore throat',
       'sneezing',
       'inflammation',
+      'headache',
+      'stomach ache',
     ],
     page: 3
   },
@@ -85,6 +87,9 @@ const Questions =[
       'fever',
       'sore throat',
       'sneezing',
+      'inflammation',
+      'headache',
+      'stomach ache',
     ],
     page: 4
   },
@@ -152,6 +157,9 @@ const QaWrapper = ({questions}) => {
   const [values, setValues] = React.useState({
     1: 'ddd',
     2: 'hai',
+    3: 'ddd',
+    4: 'hai',
+    5: 'hai',
   });
 
   const handleChange = name => event => {
@@ -187,10 +195,6 @@ const QaWrapper = ({questions}) => {
             className={classes.select}
             value={values[question.id]}
             onChange={handleChange(question.id)}
-            // inputProps={{
-            //   name: 'age',
-            //   id: 'outlined-age-simple',
-            // }}
           >
           <MenuItem value="Select an Option">
           <em>Select Options</em>
