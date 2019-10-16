@@ -19,6 +19,8 @@ import {FormControl} from '@material-ui/core';
 import {InputLabel} from '@material-ui/core'
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
+import Result from './results.js';
+
 const firebaseConfig = {
     apiKey: "AIzaSyCPlCnToFlfovuDUaAGesBUNLZw8DAxTnQ",
     authDomain: "quickdoc-8a808.firebaseapp.com",
@@ -240,7 +242,9 @@ const Pagination = () =>{
         <input>
         </input>
       </div> */}
-      <QaWrapper questions = {questions}/>
+      {activeStep===maxSteps-1? <Result/>:
+        <QaWrapper questions = {questions}/>}
+      
       <MobileStepper
         steps={maxSteps}
         position="static"
