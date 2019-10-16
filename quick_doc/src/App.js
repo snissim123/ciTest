@@ -4,7 +4,7 @@ import {Container,Title } from "rbx";
 import firebase from 'firebase/app';
 import 'firebase/database';
 
-
+import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MobileStepper from '@material-ui/core/MobileStepper';
 import Paper from '@material-ui/core/Paper';
@@ -15,8 +15,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem'
-import {FormControl} from '@material-ui/core';
-import {InputLabel} from '@material-ui/core'
+import FormControl from '@material-ui/core/FormControl';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPlCnToFlfovuDUaAGesBUNLZw8DAxTnQ",
@@ -74,16 +73,26 @@ const Questions =[
       'sneezing',
       'inflammation',
     ],
-    page: 2
+    page: 3
   },
   {
     id: 4,
+    question: 'Do you have any other symptoms?',
+    answer:[
+      'fever',
+      'sore throat',
+      'sneezing',
+    ],
+    page: 4
+  },
+  {
+    id: 5,
     question: 'Which city do you live in?',
     answer:[
       'Evanston'
     ],
-    page: 3
-  }
+    page: 5
+  } 
 ]
 
 
@@ -135,14 +144,18 @@ const QaWrapper = ({questions}) => {
 
 
   const [values, setValues] = React.useState({
+    1: 'ddd',
+    2: 'hai',
   });
 
   const handleChange = name => event => {
-    setValues({ ...values, [name]: event.target.value });
+    setValues(({
+      ...values,
+      [name]: event.target.value,
+    }));
   };
 
   const classes = useStyles();
-  const [age, setAge] = React.useState('');
   const [open, setOpen] = React.useState(false);
 
 
@@ -158,21 +171,28 @@ const QaWrapper = ({questions}) => {
     <form className={classes.container} noValidate autoComplete="off">
 
       {
-    //  <InputLabel htmlFor="select-multiple">question</InputLabel>
       questions.map(question =>
+        <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel ref={InputLabel} htmlFor="outlined-age-simple">
+          {question.question}
+        </InputLabel>
           <Select
             className={classes.select}
-            multiple
-            value={[]}
-            onChange={handleChange}
+            value={values[question.id]}
+            onChange={handleChange(question.id)}
+            // inputProps={{
+            //   name: 'age',
+            //   id: 'outlined-age-simple',
+            // }}
           >
           <MenuItem value="Select an Option">
           <em>Select Options</em>
           </MenuItem>
-          <MenuItem value={question.answer[0]}>{question.answer[0]}</MenuItem>
-          <MenuItem value={question.answer[1]}>{question.answer[1]}</MenuItem>
-          <MenuItem value={question.answer[2]}>{question.answer[2]}</MenuItem>
+          {question.answer.map(answer=>
+             <MenuItem value={answer}>{answer}</MenuItem>
+          )}
       </Select>
+      </FormControl>
       )
       }
     </form>
