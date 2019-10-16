@@ -15,7 +15,15 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem'
+<<<<<<< HEAD
+import {FormControl} from '@material-ui/core';
+import {InputLabel} from '@material-ui/core'
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+
+import Result from './results.js';
+=======
 import FormControl from '@material-ui/core/FormControl';
+>>>>>>> master
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPlCnToFlfovuDUaAGesBUNLZw8DAxTnQ",
@@ -263,7 +271,9 @@ const Pagination = () =>{
         <input>
         </input>
       </div> */}
-      <QaWrapper questions = {questions}/>
+      {activeStep===maxSteps-1? <Result/>:
+        <QaWrapper questions = {questions}/>}
+      
       <MobileStepper
         steps={maxSteps}
         position="static"
