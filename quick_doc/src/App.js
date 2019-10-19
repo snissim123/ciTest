@@ -301,19 +301,79 @@ const Pagination = () =>{
   )
 }
 
+const Pageone = ({pagestate}) => {
+  const switch_page = () =>{
+    pagestate.setpage(2)
+  }
+  return (
+    <Button size = "large" onClick = {switch_page} align="center">
+    Search
+    </Button>
+  )
+}
+
+const DocList = ({doctors}) => {
+  return(
+    <div>
+    {doctors.map(
+      doctor => (<div> {doctor.profile.first_name} {doctor.profile.last_name}
+        </div>
+
+    )
+  )}
+  </div>
+  )
+}
+
+const Pagetwo = ({doctors}) => {
+  return (
+    // <FilterMenu/>
+    <DocList doctors = {doctors}/>
+  );
+}
+
 const App =() => {
 
   const style ={
     marginTop: 40
   }
-  return (
+  const [page, setpage] = React.useState(1)
+  const [json, setjson] = React.useState({meta: {}, data: {}});
+  const url = 'apiData/exampleData.json';
+
+  useEffect(() => {
+    const fetchjson = async () => {
+      const response = await fetch(url);
+      if (!response.ok) throw response;
+      const json = await response.json();
+      setjson(json);
+    }
+    fetchjson();
+  }, [])
+
+  if (page === 1) {
+    return (
     <Container>
       <Title align="center" style = {style}>
         QuickDoc
       </Title>
-      <Pagination/>
+      <Pageone pagestate = {{page, setpage}}/>
+      {/* <Pagination/> */}
     </Container>
   );
+  }
+  else {
+    return (
+      <Container>
+        <Title align="center" style = {style}>
+          QuickDoc
+        </Title>
+        <Pagetwo doctors = {json.data}/>
+        {/* <Pagination/> */}
+      </Container>
+    );
+  }
+  
 }
 
 export default App;
