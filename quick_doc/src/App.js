@@ -3,6 +3,7 @@ import "rbx/index.css";
 import {Container,Title } from "rbx";
 import firebase from 'firebase/app';
 import 'firebase/database';
+import page1 from './page1'
 
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -37,19 +38,45 @@ const db = firebase.database().ref();
 // const docLocUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + docLocKey;
 
 
+const Pageone = ({pagestate}) => {
+  const switch_page = () => {
+    pagestate.setpage(2)
+  }
+  return(
+    <Button size = "large" onClick = {switch_page} align="center">
+      Search
+    </Button>
+  )
+}
+
 
 const App =() => {
 
   const style ={
     marginTop: 40
   }
-  return (
-    <Container>
-      <Title align="center" style = {style}>
-        QuickDoc
-      </Title>
-    </Container>
-  );
+  const [page, setpage] = React.useState(1)
+  if (page === 1){
+    return (
+      <Container>
+        <Title align="center" style = {style}>
+          QuickDoc
+        </Title>
+        <Pageone pagestate = {{page, setpage}}/>
+      </Container>
+    );
+  }
+  else {
+    return (
+      <Container>
+        <Title align="center" style = {style}>
+          QuickDoc Page 2
+        </Title>
+        <page1></page1>
+      </Container>
+    );
+  }
+  
 }
 
 export default App;
