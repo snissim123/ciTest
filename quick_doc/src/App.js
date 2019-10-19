@@ -4,6 +4,7 @@ import {Container,Title } from "rbx";
 import firebase from 'firebase/app';
 import 'firebase/database';
 import page1 from './page1'
+import Autocomplete from 'react-google-autocomplete';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -33,6 +34,8 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database().ref();
 
+const googleKey = "AIzaSyCfjp7ZKwdAFhg773PBrwMinONqf_cGBlU";
+
 // Won't be using this API for this slice, but for future reference if needed
 // const docLocKey = 'e98def16c263c71592c3c2f74e24097a';
 // const docLocUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + docLocKey;
@@ -43,9 +46,20 @@ const Pageone = ({pagestate}) => {
     pagestate.setpage(2)
   }
   return(
-    <Button size = "large" onClick = {switch_page} align="center">
+    <div>
+      <Button size = "large" onClick = {switch_page} align="center">
       Search
     </Button>
+    <Autocomplete
+        style={{width: '90%'}}
+        onPlaceSelected={(place) => {
+          console.log(place);
+        }}
+        types={['(regions)']}
+        componentRestrictions={{country: "ru"}}
+    />
+    </div>
+    
   )
 }
 
