@@ -15,7 +15,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Filter from './Filter/filter.js';
+import {FilterMenu} from './Filter/filter.js';
 
 import {FormControl} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -327,8 +327,10 @@ const DocList = ({doctors}) => {
 
 const Pagetwo = ({doctors}) => {
   return (
+    <Container>
     <FilterMenu doctors ={doctors}/>
     <DocList doctors = {doctors}/>
+    </Container>
   );
 }
 
@@ -365,9 +367,6 @@ const App =() => {
   else {
     return (
       <Container>
-        <Title align="center" style = {style}>
-          QuickDoc
-        </Title>
         <Pagetwo doctors = {json.data}/>
         {/* <Pagination/> */}
       </Container>
