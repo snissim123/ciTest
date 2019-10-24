@@ -41,9 +41,12 @@ const googleKey = "AIzaSyCfjp7ZKwdAFhg773PBrwMinONqf_cGBlU";
 // const docLocUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + docLocKey;
 
 
-const Pageone = ({pagestate}) => {
+const Pageone = ({pagestate, coordinatestate}) => {
   const switch_page = () => {
     pagestate.setpage(2)
+  }
+  const set_coordinates = (lat, long) => {
+    coordinatestate.setcoordinates(lat + "," + long)
   }
   return(
     <div>
@@ -53,10 +56,12 @@ const Pageone = ({pagestate}) => {
     <Autocomplete
         style={{width: '90%'}}
         onPlaceSelected={(place) => {
-          console.log(place);
+          var lat = place.geometry.location.lat().toString();
+          var lng = place.geometry.location.lng().toString();
+          set_coordinates(lat, lng);
         }}
-        types={['(regions)']}
-        componentRestrictions={{country: "ru"}}
+        types={[]}
+        componentRestrictions={{country: "usa"}}
     />
     </div>
     
@@ -70,13 +75,15 @@ const App =() => {
     marginTop: 40
   }
   const [page, setpage] = React.useState(1)
+  const [coordinates, setcoordinates] = React.useState("")
+
   if (page === 1){
     return (
       <Container>
         <Title align="center" style = {style}>
           QuickDoc
         </Title>
-        <Pageone pagestate = {{page, setpage}}/>
+        <Pageone pagestate = {{page, setpage}} coordinatestate = {{coordinates, setcoordinates}} />
       </Container>
     );
   }
@@ -86,7 +93,7 @@ const App =() => {
         <Title align="center" style = {style}>
           QuickDoc Page 2
         </Title>
-        <page1></page1>
+        {coordinates}
       </Container>
     );
   }
