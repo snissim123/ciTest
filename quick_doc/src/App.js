@@ -319,7 +319,6 @@ const DocList = ({doctors}) => {
     {doctors.map(
       doctor => (<div> {doctor.profile.first_name} {doctor.profile.last_name}
         </div>
-
     )
   )}
   </div>
@@ -329,11 +328,16 @@ const DocList = ({doctors}) => {
 
 const Pagetwo = ({doctors}) => {
   return (
+<<<<<<< HEAD
     <React.Fragment>
       <FilterMenu doctors= {doctors}/>
       <DocList doctors = {doctors}/>
     </React.Fragment>
     
+=======
+    <FilterMenu doctors ={doctors}/>
+    <DocList doctors = {doctors}/>
+>>>>>>> 019016c472cf3f685a575289d93b91a8573a6d25
   );
 }
 
@@ -343,7 +347,7 @@ const App =() => {
     marginTop: 40
   }
   const [page, setpage] = React.useState(1)
-  const [json, setjson] = React.useState({meta: {}, data: {}});
+  const [json, setjson] = React.useState({meta: {}, data: []});
   const url = 'apiData/exampleData.json';
 
   useEffect(() => {
