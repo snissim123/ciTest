@@ -2,7 +2,8 @@ import React, { useState, useEffect} from 'react';
 import {Container,Title } from "rbx";
 
 
-const Filter =()=>{
+export const Filter =({doctors})=>{
+    
     return (
         <Container>
 
@@ -11,4 +12,3 @@ const Filter =()=>{
 }
 
 
-export default Filter;

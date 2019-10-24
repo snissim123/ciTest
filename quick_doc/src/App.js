@@ -312,16 +312,13 @@ const Pageone = ({pagestate}) => {
     </Button>
   )
 }
-// const FilterMenu = () =>{
-  
-// }
+
 const DocList = ({doctors}) => {
   return(
     <div>
     {doctors.map(
       doctor => (<div> {doctor.profile.first_name} {doctor.profile.last_name}
         </div>
-
     )
   )}
   </div>
@@ -330,7 +327,7 @@ const DocList = ({doctors}) => {
 
 const Pagetwo = ({doctors}) => {
   return (
-    // <FilterMenu/>
+    <FilterMenu doctors ={doctors}/>
     <DocList doctors = {doctors}/>
   );
 }
