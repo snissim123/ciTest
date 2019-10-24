@@ -371,12 +371,7 @@ const DocList = ({doctors}) => {
 }
 
 const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
-  const switch_page = () =>{
-    pagestate.setpage(3)
-  }
-  const updatedoc = (doctor) =>{
-    settingdoctor.setdoc(doctor)
-  }
+
   return (
     // <FilterMenu/>
     <div className={styles.root}>
@@ -391,7 +386,7 @@ const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
               title={doctor.profile.first_name+ " " + doctor.profile.last_name}
               subtitle={<span>{doctor.profile.title}</span>}
               actionIcon={
-                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onClick={updatedoc(doctor),switch_page} className={styles.icon}>
+                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}} className={styles.icon}>
                   <InfoIcon />
                 </IconButton>
               }
@@ -405,8 +400,9 @@ const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
 
 const PageThree = ({pagestate,doctors,settingdoctor}) => {
   return (
-    // <FilterMenu/>
-    <p>{settingdoctor.doc.profile.bio}</p>
+    <div>
+    <Button align="center" size="large" onClick={function(event){pagestate.setpage(2)}}>go back</Button>
+    </div>
   )
 }
 
@@ -457,7 +453,7 @@ const App =() => {
         <Title align="center" style = {style}>
           QuickDoc
         </Title>
-        <PageThree pagestate = {{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
+        <PageThree pagestate={{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
       </Container>
     );
   }
