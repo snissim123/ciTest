@@ -23,15 +23,11 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 //import tileData from './tileData';
 
-import {FormControl} from '@material-ui/core';
+import {FormControl, CardHeader, CardContent, CardMedia} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import Box from '@material-ui/core/Box';
 import { sizing, spacing, positions } from '@material-ui/system';
 import Card from '@material-ui/core/Card';
-// import { Typography } from 'material-ui/styles';
-import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import TypoGraphy from '@material-ui/core/Typography';
 
 import Result from './results.js';
 
@@ -58,17 +54,16 @@ const styles = theme => ({
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
     backgroundColor: theme.palette.background.paper,
   },
-  card: {
-      padding: 10,
-      width: "50%",
-      marginTop: 20,
-  },
   gridList: {
-    width: 200,
-    height: 200,
+    width: 'auto',
+    height: 'auto',
+  },
+  gridListTile: {
+    width: 'auto',
+    height: 'auto',
+    overflowY: 'auto',
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
@@ -120,31 +115,19 @@ const Pageone = ({pagestate}) => {
 }
 
 const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
-
+  
   return (
-    // <FilterMenu/>
-    <div className={styles.root}>
-      <GridList cellHeight={500} className={styles.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-          <ListSubheader component="div">Here is your list of Doctors</ListSubheader>
-        </GridListTile>
-        {doctors.map(doctor => (
-          <GridListTile key={doctor.profile.image_url}>
-            <img src={doctor.profile.image_url}/>
-            <GridListTileBar
-              title={doctor.profile.first_name+ " " + doctor.profile.last_name}
-              subtitle={<span>{doctor.profile.title}</span>}
-              actionIcon={
-                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}} className={styles.icon}>
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
-  )
+    <div>
+      {doctors.map(doctor =>
+        (<Card className={useStyles.card}>
+          <CardHeader>{doctor.profile.first_name + doctor.profile.last_name}</CardHeader>
+          <CardMedia><img src={doctor.profile.image_url}></img></CardMedia>
+          <CardContent>Located in {doctor.practices[0].visit_address.city + ", " + doctor.practices[0].visit_address.state}
+          <Button size="large" onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}}>View Doctor Bio</Button>
+          </CardContent>
+        </Card>))}
+     </div>
+  );
 }
 
 const PageThree = ({pagestate,doctors,settingdoctor}) => {
@@ -209,5 +192,30 @@ const App =() => {
   }
   
 }
+/*
+old grid tile code
+    // <FilterMenu/>
+    <div className={styles.root}>
+      <GridList cellHeight={'auto'} cellWidth={50} className={styles.gridList}>
+        <GridListTile key="Subheader" cols={2}>
+          <ListSubheader component="h1">Here is your list of Doctors</ListSubheader>
+        </GridListTile>
+        {doctors.map(doctor => (
+          <GridListTile key={doctor.profile.image_url}>
+            <img src={doctor.profile.image_url}/>
+            <GridListTileBar
+              title={doctor.profile.first_name+ " " + doctor.profile.last_name}
+              subtitle={<span>{doctor.profile.title}</span>}
+              actionIcon={
+                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}} className={styles.icon}>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
+*/
 
 export default App;
