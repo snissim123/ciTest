@@ -311,7 +311,9 @@ const Pageone = ({pagestate}) => {
     </Button>
   )
 }
-
+// const FilterMenu = () =>{
+  
+// }
 const DocList = ({doctors}) => {
   return(
     <div>
@@ -338,7 +340,7 @@ const App =() => {
     marginTop: 40
   }
   const [page, setpage] = React.useState(1)
-  const [json, setjson] = React.useState({meta: {}, data: {}});
+  const [json, setjson] = React.useState({meta: {}, data: []});
   const url = 'apiData/exampleData.json';
 
   useEffect(() => {
