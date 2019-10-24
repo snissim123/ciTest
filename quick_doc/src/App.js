@@ -15,6 +15,13 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem'
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+//import tileData from './tileData';
 
 import {FormControl} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -115,12 +122,27 @@ const Questions =[
 ]
 
 const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    overflow: 'hidden',
+    backgroundColor: theme.palette.background.paper,
+  },
   card: {
       padding: 10,
       width: "50%",
       marginTop: 20,
   },
-
+  gridList: {
+    width: 200,
+    height: 200,
+  },
+  icon: {
+    color: 'rgba(255, 255, 255, 0.54)',
+    width: 50,
+    height: 50,
+  },
   disclaimer:{
       marginBottom: 30,
   }
@@ -133,7 +155,7 @@ const useStyles = makeStyles(theme => ({
   },
   card: {
     padding: 10,
-    width: "50%",
+    width: "30%",
     marginTop: 20,
   },
   formControl: {
@@ -348,17 +370,44 @@ const DocList = ({doctors}) => {
   )
 }
 
-const Pagetwo = ({doctors}) => {
+const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
+  const switch_page = () =>{
+    pagestate.setpage(3)
+  }
+  const updatedoc = (doctor) =>{
+    settingdoctor.setdoc(doctor)
+  }
   return (
     // <FilterMenu/>
-    doctors.map(doctor =>
-    (<Card className={useStyles.card}>
-      <h5><strong>{doctor.profile.first_name} {doctor.profile.last_name}</strong></h5>
-      <h5>{doctor.profile.bio}</h5>
-      <img src={doctor.profile.image_url}></img>
-    </Card>)
+    <div className={styles.root}>
+      <GridList cellHeight={500} className={styles.gridList}>
+        <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+          <ListSubheader component="div">Here is your list of Doctors</ListSubheader>
+        </GridListTile>
+        {doctors.map(doctor => (
+          <GridListTile key={doctor.profile.image_url}>
+            <img src={doctor.profile.image_url}/>
+            <GridListTileBar
+              title={doctor.profile.first_name+ " " + doctor.profile.last_name}
+              subtitle={<span>{doctor.profile.title}</span>}
+              actionIcon={
+                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onPress={switch_page} className={styles.icon}>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
   )
-  );
+}
+
+const PageThree = ({pagestate,doctors,settingdoctor}) => {
+  return (
+    // <FilterMenu/>
+    <p>{settingdoctor.doc.profile.bio}</p>
+  )
 }
 
 const App =() => {
@@ -368,6 +417,7 @@ const App =() => {
   }
   const [page, setpage] = React.useState(1)
   const [json, setjson] = React.useState({meta: {}, data: []});
+  const [doc,setdoc] = React.useState('');
   const url = 'apiData/exampleData.json';
 
   useEffect(() => {
@@ -391,13 +441,23 @@ const App =() => {
     </Container>
   );
   }
-  else {
+  else if (page == 2) {
     return (
       <Container>
         <Title align="center" style = {style}>
           QuickDoc
         </Title>
-        <Pagetwo doctors = {json.data}/>
+        <Pagetwo pagestate = {{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
+      </Container>
+    );
+  }
+  else if (page == 3) {
+    return (
+      <Container>
+        <Title align="center" style = {style}>
+          QuickDoc
+        </Title>
+        <PageThree pagestate = {{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
       </Container>
     );
   }
