@@ -391,7 +391,7 @@ const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
               title={doctor.profile.first_name+ " " + doctor.profile.last_name}
               subtitle={<span>{doctor.profile.title}</span>}
               actionIcon={
-                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onPress={switch_page} className={styles.icon}>
+                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onClick={updatedoc(doctor),switch_page} className={styles.icon}>
                   <InfoIcon />
                 </IconButton>
               }
