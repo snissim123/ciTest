@@ -120,7 +120,7 @@ const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
     <div>
       {doctors.map(doctor =>
         (<Card className={useStyles.card}>
-          <CardHeader>{doctor.profile.first_name + doctor.profile.last_name}</CardHeader>
+          <h1><strong>{doctor.profile.first_name + " " + doctor.profile.last_name}</strong></h1>
           <CardMedia><img src={doctor.profile.image_url}></img></CardMedia>
           <CardContent>Located in {doctor.practices[0].visit_address.city + ", " + doctor.practices[0].visit_address.state}
           <Button size="large" onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}}>View Doctor Bio</Button>
