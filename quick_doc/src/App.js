@@ -3,6 +3,8 @@ import "rbx/index.css";
 import {Container,Title } from "rbx";
 import firebase from 'firebase/app';
 import 'firebase/database';
+import page1 from './page1'
+import Autocomplete from 'react-google-autocomplete';
 
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -21,7 +23,7 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
-//import tileData from './tileData';
+import AppBar from '@material-ui/core/AppBar';
 
 import {FormControl, CardHeader, CardContent, CardMedia} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -44,10 +46,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database().ref();
 
+const googleKey = "AIzaSyCfjp7ZKwdAFhg773PBrwMinONqf_cGBlU";
+
 // Won't be using this API for this slice, but for future reference if needed
 // const docLocKey = 'e98def16c263c71592c3c2f74e24097a';
 // const docLocUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + docLocKey;
-
 
 const styles = theme => ({
   root: {
@@ -102,18 +105,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-
-const Pageone = ({pagestate}) => {
-  const switch_page = () =>{
-    pagestate.setpage(2)
-  }
-  return (
-    <Button size = "large" onClick = {switch_page} align="center">
-    Search
-    </Button>
-  )
-}
-
 const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
   
   return (
@@ -144,12 +135,61 @@ const PageThree = ({pagestate,doctors,settingdoctor}) => {
   )
 }
 
+const pageOneStyles = makeStyles(theme => ({
+  title: {
+    flexGrow: 1,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  searchBar: {
+    marginTop: 300,
+    align: "center",
+  },
+  searchInput: {
+    width: '70%', 
+    height: 30,
+    fontFamily: "Helvetica",
+    fontSize: 16,
+  },
+}));
+
+const Pageone = ({pagestate, coordinatestate}) => {
+  const switch_page = () => {
+    pagestate.setpage(2)
+  }
+  const set_coordinates = (lat, long) => {
+    coordinatestate.setcoordinates(lat + "," + long)
+  }
+  const classes = pageOneStyles()
+
+  return(
+    <Container className={classes.searchBar} align="center">
+    <Autocomplete
+        className={classes.searchInput}
+        // style={{width: "70%", font:""}}
+        onPlaceSelected={(place) => {
+          var lat = place.geometry.location.lat().toString();
+          var lng = place.geometry.location.lng().toString();
+          set_coordinates(lat, lng);
+        }}
+        types={[]}
+        componentRestrictions={{country: "usa"}}
+    />
+    <Button size = "large" onClick = {switch_page}>
+      Search
+    </Button>
+    </Container>
+    
+  )
+}
+
+
 const App =() => {
 
-  const style ={
-    marginTop: 40
-  }
+  const classes = pageOneStyles();
+
   const [page, setpage] = React.useState(1)
+  const [coordinates, setcoordinates] = React.useState("")
   const [json, setjson] = React.useState({meta: {}, data: []});
   const [doc,setdoc] = React.useState('');
   const url = 'apiData/exampleData.json';
@@ -164,16 +204,18 @@ const App =() => {
     fetchjson();
   }, [])
 
-  if (page === 1) {
+
+  if (page === 1){
     return (
-    <Container>
-      <Title align="center" style = {style}>
-        QuickDoc
-      </Title>
-      <Pageone pagestate = {{page, setpage}}/>
-      {/* <Pagination/> */}
-    </Container>
-  );
+      <Container>
+        <AppBar>
+          <Title align="center" className={classes.title}>
+            QuickDoc
+          </Title>
+        </AppBar>
+        <Pageone pagestate = {{page, setpage}} coordinatestate = {{coordinates, setcoordinates}}/>
+      </Container>
+    );
   }
   else if (page == 2) {
     return (
