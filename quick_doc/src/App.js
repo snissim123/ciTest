@@ -181,6 +181,10 @@ const Pageone = ({pagestate, coordinatestate}) => {
 
 const App =() => {
 
+  const style ={
+    marginTop: 40
+  }
+
   const classes = pageOneStyles();
 
   const [page, setpage] = React.useState(1)
