@@ -16,11 +16,22 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import MenuItem from '@material-ui/core/MenuItem'
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
 import AppBar from '@material-ui/core/AppBar';
 
-import {FormControl} from '@material-ui/core';
+import {FormControl, CardHeader, CardContent, CardMedia} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Box from '@material-ui/core/Box';
+import { sizing, spacing, positions } from '@material-ui/system';
+import Card from '@material-ui/core/Card';
+
+import Result from './results.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPlCnToFlfovuDUaAGesBUNLZw8DAxTnQ",
@@ -41,6 +52,83 @@ const googleKey = "AIzaSyCfjp7ZKwdAFhg773PBrwMinONqf_cGBlU";
 // const docLocKey = 'e98def16c263c71592c3c2f74e24097a';
 // const docLocUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + docLocKey;
 
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    backgroundColor: theme.palette.background.paper,
+  },
+  gridList: {
+    width: 'auto',
+    height: 'auto',
+  },
+  gridListTile: {
+    width: 'auto',
+    height: 'auto',
+    overflowY: 'auto',
+  },
+  icon: {
+    color: 'rgba(255, 255, 255, 0.54)',
+    width: 50,
+    height: 50,
+  },
+  disclaimer:{
+      marginBottom: 30,
+  }
+});
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  card: {
+    padding: 10,
+    width: "30%",
+    marginTop: 20,
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+    maxWidth: 300,
+  },
+  chips: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  chip: {
+    margin: 2,
+  },
+  noLabel: {
+    marginTop: theme.spacing(3),
+  },
+}));
+
+const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
+  
+  return (
+    <div>
+      {doctors.map(doctor =>
+        (<Card className={useStyles.card}>
+          <h1><strong>{doctor.profile.first_name + " " + doctor.profile.last_name}</strong></h1>
+          <CardMedia><img src={doctor.profile.image_url}></img></CardMedia>
+          <CardContent>Located in {doctor.practices[0].visit_address.city + ", " + doctor.practices[0].visit_address.state}
+          <Button size="large" onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}}>View Doctor Bio</Button>
+          </CardContent>
+        </Card>))}
+     </div>
+  );
+}
+
+const PageThree = ({pagestate,doctors,settingdoctor}) => {
+  return (
+    <div>
+    <p>{settingdoctor.doc.bio}</p>
+    <Button align="center" size="large" onClick={function(event){pagestate.setpage(2)}}>go back</Button>
+    </div>
+  )
+}
 
 const pageOneStyles = makeStyles(theme => ({
   title: {
@@ -97,6 +185,20 @@ const App =() => {
 
   const [page, setpage] = React.useState(1)
   const [coordinates, setcoordinates] = React.useState("")
+  const [json, setjson] = React.useState({meta: {}, data: []});
+  const [doc,setdoc] = React.useState('');
+  const url = 'apiData/exampleData.json';
+
+  useEffect(() => {
+    const fetchjson = async () => {
+      const response = await fetch(url);
+      if (!response.ok) throw response;
+      const json = await response.json();
+      setjson(json);
+    }
+    fetchjson();
+  }, [])
+
 
   if (page === 1){
     return (
@@ -110,17 +212,52 @@ const App =() => {
       </Container>
     );
   }
-  else {
+  else if (page == 2) {
     return (
       <Container>
-        <Title align="center">
-          QuickDoc Page 2
+        <Title align="center" style = {style}>
+          QuickDoc
         </Title>
-        {coordinates}
+        <Pagetwo pagestate = {{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
+      </Container>
+    );
+  }
+  else if (page == 3) {
+    return (
+      <Container>
+        <Title align="center" style = {style}>
+          QuickDoc
+        </Title>
+        <PageThree pagestate={{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
       </Container>
     );
   }
   
 }
+/*
+old grid tile code
+    // <FilterMenu/>
+    <div className={styles.root}>
+      <GridList cellHeight={'auto'} cellWidth={50} className={styles.gridList}>
+        <GridListTile key="Subheader" cols={2}>
+          <ListSubheader component="h1">Here is your list of Doctors</ListSubheader>
+        </GridListTile>
+        {doctors.map(doctor => (
+          <GridListTile key={doctor.profile.image_url}>
+            <img src={doctor.profile.image_url}/>
+            <GridListTileBar
+              title={doctor.profile.first_name+ " " + doctor.profile.last_name}
+              subtitle={<span>{doctor.profile.title}</span>}
+              actionIcon={
+                <IconButton aria-label={`info about ${doctor.profile.first_name}`} onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}} className={styles.icon}>
+                  <InfoIcon />
+                </IconButton>
+              }
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </div>
+*/
 
 export default App;
