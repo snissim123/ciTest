@@ -16,7 +16,8 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem'
+import MenuItem from '@material-ui/core/MenuItem';
+import AppBar from '@material-ui/core/AppBar';
 
 import {FormControl} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -41,6 +42,24 @@ const googleKey = "AIzaSyCfjp7ZKwdAFhg773PBrwMinONqf_cGBlU";
 // const docLocUrl = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + docLocKey;
 
 
+const pageOneStyles = makeStyles(theme => ({
+  title: {
+    flexGrow: 1,
+    marginTop: 15,
+    marginBottom: 15,
+  },
+  searchBar: {
+    marginTop: 300,
+    align: "center",
+  },
+  searchInput: {
+    width: '70%', 
+    height: 30,
+    fontFamily: "Helvetica",
+    fontSize: 16,
+  },
+}));
+
 const Pageone = ({pagestate, coordinatestate}) => {
   const switch_page = () => {
     pagestate.setpage(2)
@@ -48,13 +67,13 @@ const Pageone = ({pagestate, coordinatestate}) => {
   const set_coordinates = (lat, long) => {
     coordinatestate.setcoordinates(lat + "," + long)
   }
+  const classes = pageOneStyles()
+
   return(
-    <div>
-      <Button size = "large" onClick = {switch_page} align="center">
-      Search
-    </Button>
+    <Container className={classes.searchBar} align="center">
     <Autocomplete
-        style={{width: '90%'}}
+        className={classes.searchInput}
+        // style={{width: "70%", font:""}}
         onPlaceSelected={(place) => {
           var lat = place.geometry.location.lat().toString();
           var lng = place.geometry.location.lng().toString();
@@ -63,7 +82,10 @@ const Pageone = ({pagestate, coordinatestate}) => {
         types={[]}
         componentRestrictions={{country: "usa"}}
     />
-    </div>
+    <Button size = "large" onClick = {switch_page}>
+      Search
+    </Button>
+    </Container>
     
   )
 }
@@ -71,26 +93,27 @@ const Pageone = ({pagestate, coordinatestate}) => {
 
 const App =() => {
 
-  const style ={
-    marginTop: 40
-  }
+  const classes = pageOneStyles();
+
   const [page, setpage] = React.useState(1)
   const [coordinates, setcoordinates] = React.useState("")
 
   if (page === 1){
     return (
       <Container>
-        <Title align="center" style = {style}>
-          QuickDoc
-        </Title>
-        <Pageone pagestate = {{page, setpage}} coordinatestate = {{coordinates, setcoordinates}} />
+        <AppBar>
+          <Title align="center" className={classes.title}>
+            QuickDoc
+          </Title>
+        </AppBar>
+        <Pageone pagestate = {{page, setpage}} coordinatestate = {{coordinates, setcoordinates}}/>
       </Container>
     );
   }
   else {
     return (
       <Container>
-        <Title align="center" style = {style}>
+        <Title align="center">
           QuickDoc Page 2
         </Title>
         {coordinates}
