@@ -32,6 +32,7 @@ import { sizing, spacing, positions } from '@material-ui/system';
 import Card from '@material-ui/core/Card';
 
 import Result from './results.js';
+import {FilterMenu} from './filter.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCPlCnToFlfovuDUaAGesBUNLZw8DAxTnQ",
@@ -178,16 +179,7 @@ const Pageone = ({pagestate, coordinatestate}) => {
   )
 }
 
-const Pageone = ({pagestate}) => {
-  const switch_page = () =>{
-    pagestate.setpage(2)
-  }
-  return (
-    <Button size = "large" onClick = {switch_page} align="center">
-    Search
-    </Button>
-  )
-}
+
 
 const DocList = ({doctors}) => {
   return(
@@ -202,20 +194,16 @@ const DocList = ({doctors}) => {
   )
 }
 
-const Pagetwo = ({doctors}) => {
-  return (
-    // <FilterMenu/>
-    <DocList doctors = {doctors}/>
-  );
-}
-
 const App =() => {
 
   const style ={
     marginTop: 40
   }
+  const classes = pageOneStyles();
   const [page, setpage] = React.useState(1)
-  const [json, setjson] = React.useState({meta: {}, data: {}});
+  const [coordinates, setcoordinates] = React.useState("")
+  const [json, setjson] = React.useState({meta: {}, data: []});
+  const [doc,setdoc] = React.useState('');
   const url = 'apiData/exampleData.json';
 
   useEffect(() => {
@@ -228,28 +216,39 @@ const App =() => {
     fetchjson();
   }, [])
 
-  if (page === 1) {
+  if (page === 1){
     return (
-    <Container>
-      <Title align="center" style = {style}>
-        QuickDoc
-      </Title>
-      <Pageone pagestate = {{page, setpage}}/>
-      {/* <Pagination/> */}
-    </Container>
-  );
+      <Container>
+        <AppBar>
+          <Title align="center" className={classes.title}>
+            QuickDoc
+          </Title>
+        </AppBar>
+        <Pageone pagestate = {{page, setpage}} coordinatestate = {{coordinates, setcoordinates}}/>
+      </Container>
+    );
   }
-  else {
+  else if (page == 2) {
+    return (
+      <Container>
+        {/* <Title align="center" style = {style}>
+          QuickDoc
+        </Title> */}
+        <FilterMenu pagestate = {{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
+      </Container>
+    );
+  }
+  else if (page == 3) {
     return (
       <Container>
         <Title align="center" style = {style}>
           QuickDoc
         </Title>
-        <Pagetwo doctors = {json.data}/>
-        {/* <Pagination/> */}
+        <PageThree pagestate={{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
       </Container>
     );
   }
+  
   
 }
 /*
