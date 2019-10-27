@@ -192,7 +192,6 @@ const DocList = ({doctors}) => {
     {doctors.map(
       doctor => (<div> {doctor.profile.first_name} {doctor.profile.last_name}
         </div>
-
     )
   )}
   </div>
