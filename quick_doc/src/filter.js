@@ -184,12 +184,46 @@ const insurance_list = getInsuList()
 console.log(specialist_list)
 console.log(insurance_list)
 
-//test
-const [personName, setPersonName] = React.useState([]);
-
-  const handleChange = event => {
-    setPersonName(event.target.value);
-  };
+const matchInsu = (doctor) =>{
+    var flag = 0
+    doctor.insurances.map(insurance=>(insu.includes(insurance.insurance_plan.name) ? flag = 1 : false))
+    if (flag===0){
+        return false
+    }
+    else{
+        return true
+    }
+}
+const matchSpec = (doctor) =>{
+    var flag = 0
+    doctor.specialties.map(specialty=>(spec.includes(specialty.name) ? flag = 1 : false))
+    if (flag===0){
+        return false
+    }
+    else{
+        return true
+    }
+    
+}
+const doctorSelector = () =>{
+    if (insu.length != 0 && spec.length != 0)
+    {
+        return doctors.filter(doctor=>matchInsu(doctor)).filter(doctor=>matchSpec(doctor));
+    }
+    else if (insu.length != 0)
+    {
+        return doctors.filter(doctor=>matchInsu(doctor));
+    }
+    else if (spec.length != 0)
+    {
+        return doctors.filter(doctor=>matchSpec(doctor));
+    }
+    else
+    {
+        return doctors;
+    }
+    
+}
 
   return (
     <div className={classes.root}>
@@ -288,7 +322,8 @@ const [personName, setPersonName] = React.useState([]);
         })}
       >
         <div>
-      {doctors.map(doctor =>
+        
+      {doctorSelector().map(doctor =>
         (<Card className={useStyles.card}>
           <h1><strong>{doctor.profile.first_name + " " + doctor.profile.last_name}</strong></h1>
           <CardMedia><img src={doctor.profile.image_url}></img></CardMedia>

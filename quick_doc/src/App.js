@@ -122,13 +122,15 @@ const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
   );
 }
 
-const PageThree = ({pagestate,doctors,settingdoctor}) => {
+const PageThree = ({pagestate,settingdoctor}) => {
+  var insuranceSet = new Set();
+  settingdoctor.doc.insurances.map(insurance=>insuranceSet.add(insurance.insurance_plan.name))
   return (
     <div>
     <h3><strong>{settingdoctor.doc.profile.first_name + " " + settingdoctor.doc.profile.last_name}</strong></h3>
     <h1>Insurance Taken:</h1>
-    {settingdoctor.doc.insurances.map(insurance =>
-      <li>{insurance.insurance_provider.name}</li>
+    {Array.from(insuranceSet).map(insurance =>
+      <li>{insurance}</li>
       )}
     <p>{settingdoctor.doc.profile.bio}</p>
     <Button align="center" size="large" onClick={function(event){pagestate.setpage(2)}}>go back</Button>
