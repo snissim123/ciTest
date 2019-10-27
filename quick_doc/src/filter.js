@@ -192,9 +192,9 @@ const getInsuList =() =>{
     
     return Array.from(insuranceSet)
 }
-const specialist_list = getSpecList()
+const specialties_list = getSpecList()
 const insurance_list = getInsuList()
-console.log(specialist_list)
+console.log(specialties_list)
 console.log(insurance_list)
 
 const matchInsu = (doctor) =>{
@@ -279,11 +279,11 @@ const doctorSelector = () =>{
         <Divider />
         <List>
 
-            <ListItem key='specialist'>
+            <ListItem key='specialties'>
               {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
               {/* <ListItemText primary={text} /> */}
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="select-multiple-checkbox">Specialist</InputLabel>
+                    <InputLabel htmlFor="select-multiple-checkbox">specialties</InputLabel>
                     <Select
                         multiple
                         value={spec}
@@ -292,10 +292,10 @@ const doctorSelector = () =>{
                         renderValue={selected => selected.join(', ')}
                         MenuProps={MenuProps}
                         >
-                    {specialist_list.map(specialist => (
-                    <MenuItem key={specialist} value={specialist}>
-                        <Checkbox checked={spec.indexOf(specialist) > -1} />
-                        <ListItemText primary={specialist} />
+                    {specialties_list.map(specialties => (
+                    <MenuItem key={specialties} value={specialties}>
+                        <Checkbox checked={spec.indexOf(specialties) > -1} />
+                        <ListItemText primary={specialties} />
                     </MenuItem>
                     ))}
                     </Select>
