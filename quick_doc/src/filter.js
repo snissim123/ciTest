@@ -172,8 +172,6 @@ export const FilterMenu =({pagestate,doctors,settingdoctor})=>{
 }
 const getInsuList =() =>{
     var insurances= doctors.map(doctor=>(doctor.insurances));
-
-    var insurances_providers = [insurances.length];
     var insuranceSet = new Set();
     for (var i=0; i<insurances.length;i++){
         insurances[i].map(insurance=>(insuranceSet.add(insurance.insurance_plan.name)));
@@ -185,7 +183,6 @@ const specialist_list = getSpecList()
 const insurance_list = getInsuList()
 console.log(specialist_list)
 console.log(insurance_list)
-// console.log(specialist_list[0][1])
 
 //test
 const [personName, setPersonName] = React.useState([]);
@@ -234,26 +231,6 @@ const [personName, setPersonName] = React.useState([]);
         </div>
         <Divider />
         <List>
-            {/* <ListItem key='name'>
-            <FormControl className={classes.formControl}>
-        <InputLabel htmlFor="select-multiple-checkbox">Tag</InputLabel>
-        <Select
-          multiple
-          value={personName}
-          onChange={handleChange}
-          input={<Input id="select-multiple-checkbox" />}
-          renderValue={selected => selected.join(', ')}
-          MenuProps={MenuProps}
-        >
-          {names.map(name => (
-            <MenuItem key={name} value={name}>
-              <Checkbox checked={personName.indexOf(name) > -1} />
-              <ListItemText primary={name} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-      </ListItem> */}
 
             <ListItem key='specialist'>
               {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
@@ -283,17 +260,19 @@ const [personName, setPersonName] = React.useState([]);
               {/* <ListItemText primary={text} /> */}
 
                 <FormControl className={classes.formControl}>
-                    <InputLabel htmlFor="select-multiple">insurance</InputLabel>
+                    <InputLabel htmlFor="select-multiple-checkbox">Insurance</InputLabel>
                     <Select
                         multiple
                         value={insu}
                         onChange={handleInsuChange}
-                        input={<Input id="select-multiple" />}
+                        input={<Input id="select-multiple-checkbox" />}
+                        renderValue={selected => selected.join(', ')}
                         MenuProps={MenuProps}
                         >
                     {insurance_list.map(insurance => (
                     <MenuItem key={insurance} value={insurance} >
-                        {insurance}
+                        <Checkbox checked={insu.indexOf(insurance) > -1} />
+                        <ListItemText primary={insurance} />                    
                     </MenuItem>
                     ))}
                     </Select>
@@ -314,7 +293,7 @@ const [personName, setPersonName] = React.useState([]);
           <h1><strong>{doctor.profile.first_name + " " + doctor.profile.last_name}</strong></h1>
           <CardMedia><img src={doctor.profile.image_url}></img></CardMedia>
           <CardContent>Located in {doctor.practices[0].visit_address.city + ", " + doctor.practices[0].visit_address.state}
-          <Button size="large" onClick={function(event){settingdoctor.setdoc(doctor.profile);pagestate.setpage(3)}}>View Doctor Bio</Button>
+          <Button size="large" onClick={function(event){settingdoctor.setdoc(doctor);pagestate.setpage(3)}}>View Doctor Bio</Button>
           </CardContent>
         </Card>))}
      </div>

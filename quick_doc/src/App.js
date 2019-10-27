@@ -237,9 +237,6 @@ const App =() => {
   else if (page == 2) {
     return (
       <Container>
-        {/* <Title align="center" style = {style}>
-          QuickDoc
-        </Title> */}
         <FilterMenu pagestate = {{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
       </Container>
     );
@@ -254,7 +251,6 @@ const App =() => {
       </Container>
     );
   }
-  
   
 }
 /*
