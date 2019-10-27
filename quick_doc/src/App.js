@@ -105,11 +105,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
-  
+const Pagetwo = ({pagestate,jsonstate,settingdoctor}) => {
+  //const doctors = jsonstate.json
   return (
     <div>
-      {doctors.map(doctor =>
+      {jsonstate.json.map((doctor) =>
         (<Card className={useStyles.card}>
           <h1><strong>{doctor.profile.first_name + " " + doctor.profile.last_name}</strong></h1>
           <CardMedia><img src={doctor.profile.image_url}></img></CardMedia>
@@ -121,7 +121,8 @@ const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
   );
 }
 
-const PageThree = ({pagestate,doctors,settingdoctor}) => {
+const PageThree = ({pagestate,jsonstate,settingdoctor}) => {
+  const doctors = jsonstate.json.data
   return (
     <div>
     <h3><strong>{settingdoctor.doc.profile.first_name + " " + settingdoctor.doc.profile.last_name}</strong></h3>
@@ -153,13 +154,17 @@ const pageOneStyles = makeStyles(theme => ({
   },
 }));
 
-const Pageone = ({pagestate, coordinatestate}) => {
+const Pageone = ({pagestate,jsonstate}) => {
   const switch_page = () => {
     pagestate.setpage(2)
   }
-  const set_coordinates = (lat, long) => {
-    coordinatestate.setcoordinates(lat + "," + long)
+
+  const fetchjson = (lat,long) => {
+    const url = 'https://api.betterdoctor.com/2016-03-01/doctors?location='+ lat + ',' + long + ',100&skip=2&limit=10&user_key=e98def16c263c71592c3c2f74e24097a'
+    const response = fetch(url).then((response)=> response.json()).then((response)=> response.data);
+    jsonstate.setjson(response);
   }
+
   const classes = pageOneStyles()
 
   return(
@@ -170,7 +175,7 @@ const Pageone = ({pagestate, coordinatestate}) => {
         onPlaceSelected={(place) => {
           var lat = place.geometry.location.lat().toString();
           var lng = place.geometry.location.lng().toString();
-          set_coordinates(lat, lng);
+          fetchjson(lat,lng)
         }}
         types={[]}
         componentRestrictions={{country: "usa"}}
@@ -193,21 +198,8 @@ const App =() => {
   const classes = pageOneStyles();
 
   const [page, setpage] = React.useState(1)
-  const [coordinates, setcoordinates] = React.useState("")
   const [json, setjson] = React.useState({meta: {}, data: []});
   const [doc,setdoc] = React.useState('');
-  const url = 'apiData/exampleData.json'
-  //const url = 'https://api.betterdoctor.com/2016-03-01/doctors?location='+ coordinates.lat + ',' +coordinates.lng + '100&skip=2&limit=10&user_key=e98def16c263c71592c3c2f74e24097a';
-
-  useEffect(() => {
-    const fetchjson = async () => {
-      const response = await fetch(url);
-      if (!response.ok) throw response;
-      const json = await response.json();
-      setjson(json);
-    }
-    fetchjson();
-  }, [])
 
 
   if (page === 1){
@@ -218,7 +210,7 @@ const App =() => {
             QuickDoc
           </Title>
         </AppBar>
-        <Pageone pagestate = {{page, setpage}} coordinatestate = {{coordinates, setcoordinates}}/>
+        <Pageone pagestate = {{page, setpage}} jsonstate={{json,setjson}}/>
       </Container>
     );
   }
@@ -228,7 +220,7 @@ const App =() => {
         <Title align="center" style = {style}>
           QuickDoc
         </Title>
-        <Pagetwo pagestate = {{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
+        <Pagetwo pagestate = {{page,setpage}} jsonstate={{json,setjson}} settingdoctor = {{doc,setdoc}}/>
       </Container>
     );
   }
@@ -238,7 +230,7 @@ const App =() => {
         <Title align="center" style = {style}>
           QuickDoc
         </Title>
-        <PageThree pagestate={{page,setpage}} doctors={json.data} settingdoctor = {{doc,setdoc}}/>
+        <PageThree pagestate={{page,setpage}} jsonstate={{json,setjson}} settingdoctor = {{doc,setdoc}}/>
       </Container>
     );
   }
