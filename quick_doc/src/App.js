@@ -15,11 +15,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-<<<<<<< HEAD
 import FilterMenu from './Filter/filter.js';
-=======
-import {FilterMenu} from './Filter/filter.js';
->>>>>>> d8edc4e5fef143e441846f368692da29eabcd456
 
 import {FormControl} from '@material-ui/core';
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -332,23 +328,10 @@ const DocList = ({doctors}) => {
 
 const Pagetwo = ({doctors}) => {
   return (
-<<<<<<< HEAD
-<<<<<<< HEAD
     <React.Fragment>
       <FilterMenu doctors= {doctors}/>
       <DocList doctors = {doctors}/>
     </React.Fragment>
-    
-=======
-    <FilterMenu doctors ={doctors}/>
-    <DocList doctors = {doctors}/>
->>>>>>> 019016c472cf3f685a575289d93b91a8573a6d25
-=======
-    <Container>
-    <FilterMenu doctors ={doctors}/>
-    <DocList doctors = {doctors}/>
-    </Container>
->>>>>>> d8edc4e5fef143e441846f368692da29eabcd456
   );
 }
 
