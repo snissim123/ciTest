@@ -106,22 +106,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Pagetwo = ({pagestate,doctors,settingdoctor}) => {
-  
-  return (
-    <div>
-      {doctors.map(doctor =>
-        (<Card className={useStyles.card}>
-          <h1><strong>{doctor.profile.first_name + " " + doctor.profile.last_name}</strong></h1>
-          <CardMedia><img src={doctor.profile.image_url}></img></CardMedia>
-          <CardContent>Located in {doctor.practices[0].visit_address.city + ", " + doctor.practices[0].visit_address.state}
-          <Button size="large" onClick={function(event){settingdoctor.setdoc(doctor);pagestate.setpage(3)}}>View Doctor Bio</Button>
-          </CardContent>
-        </Card>))}
-     </div>
-  );
-}
-
 const PageThree = ({pagestate,settingdoctor}) => {
   var insuranceSet = new Set();
   settingdoctor.doc.insurances.map(insurance=>insuranceSet.add(insurance.insurance_plan.name))
