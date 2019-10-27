@@ -196,7 +196,8 @@ const App =() => {
   const [coordinates, setcoordinates] = React.useState("")
   const [json, setjson] = React.useState({meta: {}, data: []});
   const [doc,setdoc] = React.useState('');
-  const url = 'apiData/exampleData.json';
+  const url = 'apiData/exampleData.json'
+  //const url = 'https://api.betterdoctor.com/2016-03-01/doctors?location='+ coordinates.lat + coordinates.lng + '100&skip=2&limit=10&user_key=e98def16c263c71592c3c2f74e24097a';
 
   useEffect(() => {
     const fetchjson = async () => {
