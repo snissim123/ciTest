@@ -3,7 +3,6 @@ import "rbx/index.css";
 import {Container,Title } from "rbx";
 import firebase from 'firebase/app';
 import 'firebase/database';
-import page1 from './page1'
 import Autocomplete from 'react-google-autocomplete';
 
 import InputLabel from '@material-ui/core/InputLabel';
@@ -31,7 +30,6 @@ import Box from '@material-ui/core/Box';
 import { sizing, spacing, positions } from '@material-ui/system';
 import Card from '@material-ui/core/Card';
 
-import Result from './results.js';
 import {FilterMenu} from './filter.js';
 
 const firebaseConfig = {
@@ -171,18 +169,6 @@ const Pageone = ({pagestate, coordinatestate}) => {
 }
 
 
-
-const DocList = ({doctors}) => {
-  return(
-    <div>
-    {doctors.map(
-      doctor => (<div> {doctor.profile.first_name} {doctor.profile.last_name}
-        </div>
-    )
-  )}
-  </div>
-  )
-}
 
 const App =() => {
 
