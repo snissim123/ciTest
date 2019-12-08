@@ -6,6 +6,6 @@ cache:
   - node_modules
 script:
   - npm test
-  - CI="" npm run build
+  - npm run build
 before_install:
   - cd quick_doc
